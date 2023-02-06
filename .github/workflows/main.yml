@@ -43,5 +43,5 @@ jobs:
     - name: Upload build artifacts selfcontained
       uses: actions/upload-artifact@v3
       with:
-        name: sweetUFW-selfcontained-singlefile
+        name: sweetUFW-selfcontained
         path: ./sweetUFW-selfcontained
