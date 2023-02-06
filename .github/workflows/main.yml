@@ -1,8 +1,7 @@
 name: publish
 
 on:
-  push:
-    branches: [ production ]
+  workflow_dispatch:
 
 env:
   DOTNET_VERSION: '7.0.*' # The .NET SDK version to use
