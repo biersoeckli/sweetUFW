@@ -18,22 +18,21 @@ namespace SweetUfw
 
             foreach (var configItem in config)
             {
-                Console.WriteLine($"Checking configuration for hostname {configItem.Key}");
-                var ipAdresses = UfwManager.GetIpsForHostname(configItem.Key);
-
-                foreach (var port in configItem.Value)
-                {
-                    Console.WriteLine($"Checking configuration for {configItem.Key}:{port}");
-                    DeletingObsoleteRules(ipAdresses, port);
-                    UpdateExistingAndNewRules(ipAdresses, port);
-                }
-                Console.WriteLine($"Checking configuration for hostname {configItem.Key} done");
+                var port = configItem.Key;
+                var hostnames = configItem.Value;
+                Console.WriteLine($"** Checking configuration for port {port}");
+                var ipAdresses = hostnames.SelectMany(UfwManager.GetIpsForHostname).ToList();
+                DeletingObsoleteRules(ipAdresses, port);
+                UpdateExistingAndNewRules(ipAdresses, port);
+                Console.WriteLine($"** Checking configuration for port {port} done");
             }
+            UfwManager.RunCommand("sudo ufw status");
         }
 
-        static void DeletingObsoleteRules(List<IPAddress> ipAdresses, int port)
+
+        static void DeletingObsoleteRules(List<IPAddress> allowedIpAdresses, int port)
         {
-            List<string> obsoleteIpsAdresses = UfwManager.GetAllIpAdressesOfObsoleteRules(ipAdresses.Select(ip => ip.ToString()).ToList(), port);
+            List<string> obsoleteIpsAdresses = UfwManager.GetAllIpAdressesOfObsoleteRules(allowedIpAdresses.Select(ip => ip.ToString()).ToList(), port);
             foreach (string ipAddress in obsoleteIpsAdresses)
             {
                 Console.WriteLine($"Deleting UFW rule for IP address {ipAddress} and port {port}.");

@@ -18,7 +18,7 @@ namespace SweetUfw
 		/// string => Hostname
 		/// List<int> => allowed port numbers
 		/// </returns>
-		public static Dictionary<string, List<int>> Get(string? configPath = null)
+		public static Dictionary<int, List<string>> Get(string? configPath = null)
 		{
 			string path = configPath ?? GetConfFilePath();
 			if (!Path.Exists(path))
@@ -29,13 +29,13 @@ namespace SweetUfw
             var jsonData = File.ReadAllText(path);
 			if (jsonData is null)
 			{
-				return new Dictionary<string, List<int>>();
+				return new Dictionary<int, List<string>>();
 
             }
-            return JsonSerializer.Deserialize<Dictionary<string, List<int>>>(jsonData) ?? new Dictionary<string, List<int>>();
+            return JsonSerializer.Deserialize<Dictionary<int, List<string>>>(jsonData) ?? new Dictionary<int, List<string>>();
 		}
 
-		public static void WriteConfig(Dictionary<string, List<int>> config, string? configPath = null)
+		public static void WriteConfig(Dictionary<int, List<string>> config, string? configPath = null)
 		{
            var jsonData = JsonSerializer.Serialize(config);
 			File.WriteAllText(configPath ?? GetConfFilePath(), jsonData);

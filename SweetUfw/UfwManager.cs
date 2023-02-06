@@ -58,8 +58,9 @@ namespace SweetUfw
             return ipList;
         }
 
-        private static string RunCommand(string firewallCommand)
+        public static string RunCommand(string firewallCommand)
         {
+            Console.WriteLine($"Running Firewall Command: {firewallCommand}");
             using (var process = new System.Diagnostics.Process())
             {
                 process.StartInfo.FileName = "/bin/bash";
@@ -71,7 +72,7 @@ namespace SweetUfw
                 process.Start();
 
                 string output = process.StandardOutput.ReadToEnd();
-                Console.WriteLine("Firewall updated: " + output);
+                Console.WriteLine("Output: " + output);
                 return output;
             }
         }
