@@ -36,5 +36,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: sweetUFW-${{GITHUB_REF_NAME}}
+        name: sweetUFW-${{env.GITHUB_REF_NAME}}
         path: ./sweetUFW
