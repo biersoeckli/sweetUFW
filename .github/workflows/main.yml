@@ -31,10 +31,17 @@ jobs:
       run: |
         cd SweetUfw
         dotnet build --configuration Release --no-restore
-        dotnet publish -c Release -o ../sweetUFW -r linux-x64 -p:PublishSingleFile=true -p:Version=$GITHUB_REF_NAME --self-contained true /p:UseAppHost=true
-           
-    - name: Upload build artifacts
+        dotnet publish -c Release -o ../sweetUFW-selfcontained -r linux-x64 -p:Version=$GITHUB_REF_NAME --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ../sweetUFW-selfcontained-singlefile -r linux-x64 -p:PublishSingleFile=true -p:Version=$GITHUB_REF_NAME --self-contained true /p:UseAppHost=true
+          
+    - name: Upload build artifacts selfcontained-singlefile
       uses: actions/upload-artifact@v3
       with:
         name: sweetUFW-selfcontained-singlefile
-        path: ./sweetUFW
+        path: ./sweetUFW-selfcontained-singlefile
+        
+    - name: Upload build artifacts selfcontained
+      uses: actions/upload-artifact@v3
+      with:
+        name: sweetUFW-selfcontained-singlefile
+        path: ./sweetUFW-selfcontained
