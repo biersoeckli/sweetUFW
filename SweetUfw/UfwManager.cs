@@ -1,11 +1,7 @@
-﻿using System;
-using System.Net;
-using System;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
-namespace UpdateUFWFirewall
+namespace SweetUfw
 {
     class UfwManager
     {
