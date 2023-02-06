@@ -20,11 +20,9 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Set env ARTIFACT_VERSION
+    - name: Showing env ARTIFACT_VERSION
       run: |
-        ARTIFACT_VERSION=${GITHUB_REF_NAME/v/}
-        echo "ARTIFACT_VERSION=$ARTIFACT_VERSION"
-        echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> $GITHUB_ENV
+        echo "ARTIFACT_VERSION=$GITHUB_REF_NAME"
           
     - name: Install dependencies
       run: dotnet restore
@@ -33,10 +31,10 @@ jobs:
       run: |
         cd SweetUfw
         dotnet build --configuration Release --no-restore
-        dotnet publish -c Release -o ../sweetUFW -r linux-x64 -p:PublishSingleFile=true -p:Version=$ARTIFACT_VERSION --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ../sweetUFW -r linux-x64 -p:PublishSingleFile=true -p:Version=$GITHUB_REF_NAME --self-contained true /p:UseAppHost=true
            
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: sweetUFW-$ARTIFACT_VERSION
+        name: sweetUFW-${{GITHUB_REF_NAME}}
         path: ./sweetUFW
