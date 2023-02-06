@@ -1,10 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Net;
+using System.Reflection;
 using SweetUfw;
 using UpdateUFWFirewall;
 
+var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
 Console.WriteLine("****************");
 Console.WriteLine("*** sweetUFW ***");
+Console.WriteLine($"Version: {appVersion}");
 Console.WriteLine("****************");
 
 var config = UfwConfig.Get();
