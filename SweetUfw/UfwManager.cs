@@ -13,16 +13,9 @@ namespace SweetUfw
 
         public static bool CheckIfUfwRuleExists(string ipAddress, int port)
         {
-            string firewallCommand = "sudo ufw status verbose | grep '" + ipAddress + ".*" + port + "'";
+            string firewallCommand = $"ufw status verbose | grep ALLOW | grep {ipAddress} | grep {port}";
             var output = RunCommand(firewallCommand);
-            if (output.Length == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return output.Length != 0;
         }
 
         public static void DeleteAllowTcpFromIp(string ipAddress, int port)
@@ -39,7 +32,7 @@ namespace SweetUfw
 
         public static List<string> GetAllIpAdressesOfObsoleteRules(List<string> allowedIpAdresses, int port)
         {
-            string firewallCommand = $"ufw status | grep \"ALLOW\" | grep {port} | grep -E -v \"{string.Join("|", allowedIpAdresses)}\"";
+            string firewallCommand = $"ufw status | grep ALLOW | grep {port} | grep -E -v '{string.Join("|", allowedIpAdresses)}'";
             var output = RunCommand(firewallCommand);
 
             // Regular expression pattern for IPv4 addresses
@@ -58,7 +51,12 @@ namespace SweetUfw
             return ipList;
         }
 
-        public static string RunCommand(string firewallCommand)
+        public static void PrintUfwStatus()
+        {
+            RunCommand("sudo ufw status");
+        }
+
+        private static string RunCommand(string firewallCommand)
         {
             Console.WriteLine($"Running Firewall Command: {firewallCommand}");
             using (var process = new System.Diagnostics.Process())

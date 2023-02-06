@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Net;
+﻿using System.Net;
 using System.Reflection;
 namespace SweetUfw
 {
@@ -26,7 +25,7 @@ namespace SweetUfw
                 UpdateExistingAndNewRules(ipAdresses, port);
                 Console.WriteLine($"** Checking configuration for port {port} done");
             }
-            UfwManager.RunCommand("sudo ufw status");
+            UfwManager.PrintUfwStatus();
         }
 
 

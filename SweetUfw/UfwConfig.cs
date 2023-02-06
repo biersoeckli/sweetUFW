@@ -3,8 +3,8 @@ using System.Text.Json;
 
 namespace SweetUfw
 {
-	public static class UfwConfig
-	{
+    public static class UfwConfig
+    {
 		private static string GetConfFilePath()
 		{
             string strExeFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
